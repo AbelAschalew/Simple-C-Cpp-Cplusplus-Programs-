@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+int main () {
+	int rc;
+	cout << "Enter order/size of Square Matrix:" << endl;
+	cin >> rc; // reading dimension/size of matrix from user !i.e only square matrices have trace
+	
+	// declaring a multi-dimensional dynamic array for storing elements of array
+	int **mrx = new int*[rc]; // declaring a 1-dimensional dynamic array of pointers
+	
+	int i, k;
+	
+	// The loop below declares dynamic array of intgers for each row
+	for (i=0; i<rc; i++) {
+		mrx[i] = new int[rc];
+	}
+	
+	int row = 1;
+	int clmn = 1;
+	// The loop below reads the matrix from user
+	for (i=0; i<rc; i++) {
+		clmn = 1;
+		for (k=0; k<rc; k++) {
+			cout << "Row-" << row << "_Column-" << clmn << ":- Enter Element:" << endl;
+			cin >> mrx[i][k]; // reading each element of the matrix one by one
+			clmn++;
+		}
+		row++;
+	}
+	
+	int trace;
+	// The loop below calculates the sum of elements on the main diagonal of the square matrix
+	for (i=0; i<rc; i++) {
+		for (k=0; k<rc; k++) {
+			if (i == k) {
+			trace += mrx[i][k];
+		   }
+		}
+	}
+	
+	cout << "Trace = " << trace << endl;
+}
