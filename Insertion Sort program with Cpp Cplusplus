@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+int main () {
+	int n;
+	cout << "How many numbers?:" << endl;
+	cin >> n;
+	
+	int *a = new int[n];
+	
+	int i,k,j,m;
+	
+	// Taking Input
+	for (i=0; i<n; i++) {
+		cout << "Enter Number:" << endl;
+		cin >> a[i];
+	}
+	
+	// Displaying Unsorted Data
+	cout << "***Unsorted Data***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+	
+	// Sorting With Insertion Sort Algorithm
+	for (i=1; i<n; i++) {
+		int item = a[i]; // Selecting the left most element form the unsorted region
+		// Below identifying the appropriate position to insert the selected element
+		for (k=0; k<i; k++) {
+			if (a[k]>item) {
+			  break;
+		   }
+		}
+		// Below shifting the elements greater than the selected element to the right
+		for (j=i; j>k; j-=1) {
+			a[j] = a[j-1];
+		}
+		a[j] = item; // Inserting the selected element in its correct position
+	}
+	
+	// Displaying Sorted Data
+	cout << "***Sorted Data***" << endl;
+	for (m=0; m<n; m++) {
+		cout << a[m] << "  ";
+	}
+	cout << endl;
+}
