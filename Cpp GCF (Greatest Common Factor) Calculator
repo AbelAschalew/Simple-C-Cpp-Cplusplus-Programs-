@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+Int main () {
+   int n1, n2;
+	cin >> n1 >> n2;
+	int GCF;
+	
+	while (1) {
+		if (n1>n2) {
+		n1 -= n2;
+	} else if (n2>n1) {
+		n2 -= n1;
+	} else {
+		GCF = n1;
+		cout << "GCF = " << GCF << endl;
+		break;
+	}
+	}
+}
