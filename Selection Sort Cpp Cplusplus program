@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+int main () {
+	int n;
+	cout << "How many numbers?:" << endl;
+	cin >> n;
+	
+	int *a = new int[n];
+	
+   int i,k;
+	
+	// Taking Input
+	for (i=0; i<n; i++) {
+		cout << "Enter Number:" << endl;
+		cin >> a[i];
+	}
+	
+	// Displaying Unsorted Data
+	cout << "***Unsorted Data***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+	
+	// Implementing Selection Sort
+	for (i=0; i<n; i++) {
+		int m = 0;
+		for (k=1; k<n-i; k++) { // Loop to Identify the largest element in the unsorted area
+			if (a[m] < a[k]) {
+			   m = k;
+		   }
+		}
+		// Swapping the largest elt with the right most elt in unsorted region
+		int temp = a[m];
+		a[m] = a[n-i-1];
+		a[n-i-1] = temp;
+	}
+	
+	// Displaying Sorted Data
+	cout << "***Sorted Data***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+}
