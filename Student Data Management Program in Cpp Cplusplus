@@ -1,0 +1,412 @@
+/*
+The Program below student data as an input & stores it in a binary file. Have features like: Displaying data by reading from file, Search record
+by name, Read nth record, Count number of records, Update record, & Delete record.
+*/
+
+
+#include <iostream>
+#include <fstream>
+#include <cstring>
+using namespace std;
+
+// Declaring Structure to Hold Students' Data
+struct data {
+	char name[100];
+	int age;
+	char dept[100];
+	char gender;
+	char grade;
+};
+
+// Below is a Function that accepts student data from user & stores the data in a Binary File
+void store () {
+	cout << endl;
+	ofstream out ("studentdata.dat", ios::binary | ios::app);
+	if (!out) {
+		cout << "File Can't be Opened or Created!" << endl << endl;
+	} else {
+		data stu;
+	cout << "Enter Name:" << endl;
+	cin.get();
+	cin.getline(stu.name,100);
+	cout << "Enter Age:" << endl;
+	cin >> stu.age;
+	cout << "Enter Department:" << endl;
+	cin.get();
+	cin.getline(stu.dept,100);
+	cout << "Enter Gender:" << endl;
+	cin >> stu.gender;
+	cout << "Enter Grade:" << endl;
+	cin >> stu.grade;
+	out.write((char *)(&stu), sizeof(stu));
+	}
+	out.close();
+	cout << endl;
+}
+
+// Below ia a Function that reads data from File & displays the data on Screen
+void read () {
+	cout << endl;
+	ifstream ind ("studentdata.dat", ios::binary);
+	ind.seekg(0, ios::end);
+	if (! ind) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		ind.close();
+		return;
+	} else {
+		ind.close();
+		ifstream in ("studentdata.dat", ios::binary);
+		in.seekg(0, ios::end);
+		if (in.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			in.close();
+			return;
+		} else {
+			in.close();
+			ifstream ins ("studentdata.dat", ios::binary);
+			data stu1;
+			ins.read((char *)(&stu1), sizeof(stu1));
+			int i = 1;
+			while (! ins.eof()) {
+				cout << "Record Number - " << i << endl;
+				cout << "Name = " << stu1.name << endl;
+				cout << "Age = " << stu1.age << endl;
+				cout << "Department = " << stu1.dept << endl;
+				cout << "Gender = " << stu1.gender << endl;
+				cout << "Grade = " << stu1.grade << endl;
+				ins.read((char *)(&stu1), sizeof(stu1));
+				cout << endl;
+				i++;
+			}
+			ins.close();
+		}
+	}
+	cout << endl;
+}
+
+// Below is a Function that accepts name (as string) of student & search the Binary File for match
+void searchByName () {
+	cout << endl;
+	ifstream ind ("studentdata.dat", ios::binary);
+	ind.seekg(0, ios::end);
+	if (! ind) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		ind.close();
+		return;
+	} else {
+		ind.close();
+		ifstream in ("studentdata.dat", ios::binary);
+		in.seekg(0, ios::end);
+		if (in.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			in.close();
+			return;
+		} else {
+			in.close();
+			char sname[100];
+			cout << "Enter Name To Search:" << endl;
+			cin.get();
+			cin.getline(sname,100);
+			data stu2;
+			ifstream ins ("studentdata.dat", ios::binary);
+			while (! ins.eof()) {
+				ins.read((char *)(&stu2), sizeof(stu2));
+				if (strcmp(stu2.name,sname) == 0) {
+					cout << endl;
+					cout << "Item Found:" << endl;
+					cout << "Name = " << stu2.name << endl;
+					cout << "Age = " << stu2.age << endl;
+					cout << "Department = " << stu2.dept << endl;
+					cout << "Gender = " << stu2.gender << endl;
+					cout << "Grade = " << stu2.grade << endl;
+					cout << endl;
+					break;
+				}
+			}
+			if (ins.eof()) {
+				cout << "Item Not Found!" << endl;
+			}
+			ins.close();
+		}	
+	}
+	cout << endl;
+}
+
+// Below is a Function that accepts Record Number & display data of the corresponding Record from the Binary File
+void readnthRecord () {
+	cout << endl;
+	ifstream in ("studentdata.dat", ios::binary);
+	in.seekg(0, ios::end);
+	if (! in) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		in.close();
+		return;
+	} else {
+		if (in.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			in.close();
+			return;
+		} else {
+			data stu3;
+			int rn;
+			cout << "Enter Record Number To Read:" << endl;
+			cin >> rn;
+			in.seekg((rn - 1)* sizeof(stu3));
+			in.read((char *)(&stu3), sizeof(stu3));
+			if (in.eof()) {
+				cout << "Record Not Found!" << endl;
+				in.close();
+				return;
+			} else {
+				cout << endl;
+				cout << "Name = " << stu3.name << endl;
+				cout << "Age = " << stu3.age << endl;
+				cout << "Department = " << stu3.dept << endl;
+				cout << "Gender = " << stu3.gender << endl;
+				cout << "Grade = " << stu3.grade << endl;
+				cout << endl;
+				in.close();
+			}
+		}
+	}
+	in.close();
+	cout << endl;
+}
+
+// Below is a Function that Counts the Number of Records Stored in the Binary File & display it on the Screen
+void numberOfRecords () {
+	cout << endl;
+	ifstream in ("studentdata.dat", ios::binary);
+	in.seekg(0, ios::end);
+	if (! in) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		in.close();
+		return;
+	} else {
+		if (in.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			in.close();
+			return;
+		} else {
+			in.close();
+			int i = 0;
+			data stu4;
+			ifstream inp ("studentdata.dat", ios::binary);
+			while (! inp.eof()) {
+				inp.read((char *)(&stu4), sizeof(stu4));
+			i++;
+			}
+			cout << "Number Of Records = " << i-1 << endl;
+			inp.close();
+		}
+	}
+	cout << endl;
+}
+
+
+// Below is a Function that accepts Record Number & Update the corresponding Record in the Binary File with new data accepted from user
+void update () {
+	cout << endl;
+	ifstream in ("studentdata.dat", ios::binary);
+	in.seekg(0, ios::end);
+	if (! in) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		in.close();
+		return;
+	} else {
+		if (in.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			in.close();
+			return;
+		} else {
+			data stu5;
+			int un;
+			cout << "Enter Number Of Record To Update:" << endl;
+			cin >> un;
+			in.seekg((un-1) * sizeof(stu5));
+			in.read((char *)(&stu5), sizeof(stu5));
+			if (in.eof()) {
+				cout << "Item Not Found!" << endl;
+			} else {
+				int i=0;
+				ifstream inc ("studentdata.dat", ios::binary);
+				data trial;
+				while (!inc.eof()) {
+					inc.read((char *)(&trial), sizeof(trial));
+					i++;
+				}
+				int nc = i-1;
+				inc.close();
+				cout << "File Found!" << endl;
+				cout << "Name = " << stu5.name << endl;
+				cout << "Age = " << stu5.age << endl;
+				cout << "Department = " << stu5.dept << endl;
+				cout << "Gender = " << stu5.gender << endl;
+				cout << "Grade = " << stu5.grade << endl;
+				in.close();
+				data stud;
+				data temp;
+				cout << "Enter New Data To Update!" << endl;
+				
+				cout << "Enter New Name:" << endl;
+				cin.get();
+				cin.getline(temp.name,100);
+				cout << "Enter New Age:" << endl;
+				cin >> temp.age;
+				cout << "Enter New Department:" << endl;
+				cin.get();
+				cin.getline(temp.dept,100);
+				cout << "Enter New Gender:" << endl;
+				cin >> temp.gender;
+				cout << "Enter New Grade:" << endl;
+				cin >> temp.grade;
+				ifstream ins ("studentdata.dat", ios::binary);
+				ofstream outs ("temp.dat", ios::binary | ios::app);
+				int k = 0;
+				int flag = 0;
+				while (!ins.eof()) {
+					ins.read((char *)(&stud), sizeof(stud));
+					if (strcmp(stu5.name,stud.name)==0) {
+						if (flag == 1) {
+							continue;
+						}
+						cout << "Item Found!" << endl;
+						cout << stu5.name << "&" << stud.name << endl;
+						outs.write((char *)(&temp), sizeof(temp));
+						flag = 1;
+						continue;
+					}
+					k++;
+					if (k == nc) {
+						break;
+					}
+					outs.write((char *)(&stud), sizeof(stud));
+				}
+				ins.close();
+				outs.close();
+				remove ("studentdata.dat");
+				rename ("temp.dat", "studentdata.dat");
+				cout << "Record Successfully Updated!" << endl;
+			}
+		}
+	}
+	in.close();
+	cout << endl;
+}
+
+// Below is a function that accepts Record Number & Deletes the Corresponding Record from the Binary File
+void deleteRecord () {
+	cout << endl;
+	ifstream ins ("studentdata.dat", ios::binary);
+	ins.seekg(0, ios::end);
+	if (! ins) {
+		cout << "File Not Opened!" << "\nStore Data to Create File!" << endl << endl;
+		ins.close();
+		return;
+	} else {
+		if (ins.tellg() == 0) {
+			cout << "File Is Empty!" << endl << endl;
+			ins.close();
+			return;
+		} else {
+			ins.close();
+			int i=0;
+			data trial;
+			ifstream inc ("studentdata.dat", ios::binary);
+			while (!inc.eof()) {
+				inc.read((char *)(&trial), sizeof(trial));
+				i++;
+			}
+			int nc = i-1;
+			inc.close();
+			int dn;
+			cout << "Enter Record Number To Delete:" << endl;
+			cin >> dn;
+			ifstream in ("studentdata.dat",ios::binary);
+			data stu7;
+			in.seekg((dn-1) * sizeof(stu7));
+			in.read((char *)(&stu7), sizeof(stu7));
+			char tchr[100];
+			in.close();
+			data stu8;
+			data temp;
+			bool flag = 0;
+			ifstream ints ("studentdata.dat", ios::binary);
+			ofstream out ("temp.dat", ios::binary | ios::app);
+			int k = 0;
+			if (dn > nc) {
+				cout << "Record Not Found!" << endl;
+				ints.close();
+				out.close();
+				return;
+			}
+			while (! ints.eof()) {
+				ints.read((char *)(&stu8), sizeof(stu8));
+				
+				if (strcmp(stu7.name, stu8.name)==0) {
+					cout << "Item Found!" << endl;
+					continue;
+					
+				} 
+				k++;	
+				if (k == nc) {
+					break;
+				}
+				out.write((char *)(&stu8), sizeof(stu8));
+			}
+			ints.close();
+			out.close();
+			remove ("studentdata.dat");
+			rename ("temp.dat", "studentdata.dat");
+			cout << "Record Deleted Successfully!" << endl;
+		}
+	}
+	cout << endl;
+}
+
+int main () {
+	int c; 
+	
+	// The Loop Below Is Used as a Navigation Menu
+	do {
+		cout << "1. Store" << endl;
+		cout << "2. Read" << endl;
+		cout << "3. Search By Name" << endl;
+		cout << "4. Read nth Record" << endl;
+		cout << "5. Number of Records" << endl;
+		cout << "6. Update Record" << endl;
+		cout << "7. Delete Record" << endl;
+		cout << "8. EXIT " << endl;
+		cout << "Enter Choice:" << endl;
+		cin >> c;
+		
+		switch (c) {
+			case 1:
+				store();
+				break;
+			case 2:
+				read();
+				break;
+			case 3:
+				searchByName ();
+				break;
+			case 4:
+				readnthRecord ();
+				break;
+			case 5:
+				numberOfRecords ();
+				break;
+			case 6:
+				update ();
+				break;
+			case 7:
+				deleteRecord ();
+				break;
+			case 8:
+				cout << endl << "EXITED!" << endl;
+				break;
+			default:
+				cout << endl << "Invalid Choice!" << endl << endl;
+		} 
+	} while (c != 8);
+}
