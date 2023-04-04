@@ -1,0 +1,44 @@
+#include <iostream>
+using namespace std;
+
+int main () {
+	int n; // Variable For The Size Of Array
+	cout << "How many numbers?:" << endl;
+	cin >> n;
+	
+	int *a = new int[n]; // Dynamic Array For Data
+	
+	int i, j, item;
+	
+	// Taking Input
+	for (i=0; i<n; i++) {
+		cout << "Enter Number:" << endl;
+		cin >> a[i];
+	}
+	
+	// Displaying Unsorted Data
+	cout << "*** Unsorted Data ***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+	
+	// Sorting With Insertion Sort
+	for (i=1; i<n; i++) {
+		item = a[i];
+		for (j=i; j>0; j-=1) {
+			if (a[j] < item) { // Searching for the right position
+			   break;
+		   }
+		   a[j] = a[j-1]; // Shifting elements that are larger than item
+		}
+		a[j] = item; // Inserting the Item in the correct position
+	}
+	
+	// Displaying Sorted Data
+	cout << "*** Sorted Data ***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+}
