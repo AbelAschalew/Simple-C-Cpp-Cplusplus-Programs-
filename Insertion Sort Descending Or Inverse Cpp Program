@@ -1,0 +1,55 @@
+/*
+Dear Fellow Programmers I Hope You 
+Find This & Other Programs I Released 
+Helpful. Nothing Pleasure Me Morethan 
+Helping Others. I Expect Only One Thing 
+From You, Show Your Support By Giving a Star 
+For This Repository If You Found These 
+Program/Programs Beneficial. 
+Thank You!
+*/
+#include <iostream>
+using namespace std;
+
+int main () {
+	int n;
+	cout << "How many numbers?:" << endl;
+	cin >> n;
+	
+	int *a = new int[n];
+	int i, k, j, item;
+	
+	// Taking Input 
+	for (i=0; i<n; i++) {
+		cout << "Enter Number:" << endl;
+		cin >> a[i];
+	}
+	
+	// Displaying Unsorted Data
+	cout << "*** Unsorted Data ***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+	
+	// Sorting Descendingly With Insertion Sort
+	for (i=1; i<n; i++) {
+		item = a[i];
+		for (k=0; k<i; k++) {
+			if (a[k] < item) {
+			   break;
+		   }
+		}
+		for (j=i; j>k; j-=1) {
+			a[j] = a[j-1];
+		}
+		a[j] = item;
+	}
+	
+	// Displaying Sorted Data
+	cout << "*** Sorted Data ***" << endl;
+	for (i=0; i<n; i++) {
+		cout << a[i] << "  ";
+	}
+	cout << endl;
+}
